@@ -18,9 +18,11 @@
     <script src="https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/jquery/jquery-1.10.2.min_65682a2.js"></script>
     <script type="text/javascript">
         if(window.WebSocket){
+			var switchStatus = 0;
             var webSocket = new WebSocket("ws://www.lbelieve.cn:9502");
             webSocket.onopen = function (event) {
                 //webSocket.send("Hello,WebSocket!");
+				switchStatus = 1;
             };
             webSocket.onmessage = function (event) {
                 var content = document.getElementById('content');
@@ -28,20 +30,32 @@
                 if (params.hasOwnProperty('room_id')) {
                     $("#room_id").val(params.room_id)
                 }
-                content.innerHTML = content.innerHTML.concat('<p style="margin-left:20px;height:20px;line-height:20px;">'+event.data+'</p>');
+				console.log(params.msg)
+                content.innerHTML = content.innerHTML.concat('<p style="margin-left:20px;height:20px;line-height:20px;">'+params.msg+'</p>');
             }
+			webSocket.onclose = function(event) {
+				//console.log(event)
+				switchStatus = 0;
+			}
 
             var sendMessage = function(){
-                var data = document.getElementById('message').value;
-                var room_id = document.getElementById('room_id').value;
-                var obj = {};
-                obj.msg = data;
-                obj.room_id = room_id;
-                webSocket.send(JSON.stringify(obj));
+				if (switchStatus == 1) {
+					var data = document.getElementById('message').value;
+					var room_id = document.getElementById('room_id').value;
+					var obj = {};
+					obj.msg = data;
+					obj.room_id = room_id;
+					webSocket.send(JSON.stringify(obj));
+					document.getElementById('message').value = '';
+				} else {
+					alert('websocket closed');
+				}
             }
         }else{
             console.log("您的浏览器不支持WebSocket");
         }
+		
+
     </script>
 </body>
 </html>
