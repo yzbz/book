@@ -47,6 +47,7 @@ class chat
     public function onMessage($ws, $frame)
     {
         $params = json_decode(($frame->data), true);
+        $params = $params['data'];
         var_dump($frame);
         if (empty($params['room_id'])) {
             $params['room_id'] = rand(10, 99);
