@@ -13,47 +13,81 @@
         <div style="height:40px">
             <input type="text" id="message" style="margin-left:10px;height:25px;width:450px;">
             <button onclick="sendMessage()" style="height:28px;width:75px;">发送</button>
+            <input type="hidden" id="userName"  value="">
         </div>
     </div>
     <script src="https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/jquery/jquery-1.10.2.min_65682a2.js"></script>
+    <!--
+    event_id 1 首次链接，swoole需要验证所传token是否正确
+    event_id 2 发送消息
+    -->
     <script type="text/javascript">
-        if(window.WebSocket){
-			var switchStatus = 0;
-            var webSocket = new WebSocket("ws://www.lbelieve.cn:9502");
-            webSocket.onopen = function (event) {
-                //webSocket.send("Hello,WebSocket!");
-				switchStatus = 1;
-            };
-            webSocket.onmessage = function (event) {
-                var content = document.getElementById('content');
-                var params = JSON.parse(event.data);
-                if (params.hasOwnProperty('room_id')) {
-                    $("#room_id").val(params.room_id)
-                }
-				console.log(params.msg)
-                content.innerHTML = content.innerHTML.concat('<p style="margin-left:20px;height:20px;line-height:20px;">'+params.msg+'</p>');
-            }
-			webSocket.onclose = function(event) {
-				//console.log(event)
-				switchStatus = 0;
-			}
+        var nameArr = [
+            '小黑',
+            '小白',
+            '小蓝',
+            '小紫',
+            '小红',
+            '小粉',
+            '小绿',
+            '小澄',
+            '小傻',
+            '小笨',
+        ];
+        var randName = nameArr[parseInt((Math.random() * 9))];
+        var userName = '';
+        var switchStatus = 0;
+        var webSocket = null;
+        $(function() {
+            init();
+        });
 
-            var sendMessage = function(){
-				if (switchStatus == 1) {
-					var data = document.getElementById('message').value;
-					var room_id = document.getElementById('room_id').value;
-					var obj = {};
-					obj.msg = data;
-					obj.room_id = room_id;
-					webSocket.send(JSON.stringify(obj));
-					document.getElementById('message').value = '';
-				} else {
-					alert('websocket closed');
-				}
+        function init() {
+            userName = prompt('请输入用户名', randName + '_' + parseInt(Math.random() * 1000));
+            if (userName == null) {
+                init();
+            } else {
+                $("#userName").val(userName);
+                run();
             }
-        }else{
-            console.log("您的浏览器不支持WebSocket");
         }
+
+        function run() {
+            if(window.WebSocket){
+                webSocket = new WebSocket("ws://www.lbelieve.cn:9502");
+                webSocket.onopen = function (event) {
+                    webSocket.send(JSON.stringify({event_id: 1, data: {'username': userName}}));
+                    switchStatus = 1;
+                };
+                webSocket.onmessage = function (event) {
+                    var content = document.getElementById('content');
+                    var params = JSON.parse(event.data);
+                    if (params.msg != null) {
+                        content.innerHTML = content.innerHTML.concat('<p style="margin-left:20px;height:20px;line-height:20px;">'+params.msg+'</p>');
+                    }
+                }
+                webSocket.onclose = function(event) {
+                    switchStatus = 0;
+                }
+            }else{
+                console.log("您的浏览器不支持WebSocket");
+            }
+        }
+
+        function sendMessage(){
+            if (switchStatus == 1) {
+                var data = document.getElementById('message').value;
+                var room_id = document.getElementById('room_id').value;
+                var obj = {};
+                obj.msg = data;
+                obj.room_id = room_id;
+                webSocket.send(JSON.stringify({event_id: 2, data: obj}));
+                document.getElementById('message').value = '';
+            } else {
+                alert('websocket closed');
+            }
+        }
+
 		
 
     </script>
