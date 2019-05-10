@@ -7,13 +7,22 @@
 </head>
 <body>
     <div style="width:600px;margin:0 auto;border:1px solid #ccc;">
+
         <div id="content" style="overflow-y:auto;height:300px;"></div>
+        <div><a id="msg_end" name="1" href="#1">&nbsp</a></div>
         <input type="hidden" id="room_id">
         <hr/>
         <div style="height:40px">
-            <input type="text" id="message" style="margin-left:10px;height:25px;width:450px;">
+            <span>您的昵称：</span><input type="text"  readonly id="userName"  value="" style="width: 80px">
+            <input type="text" id="message" style="margin-left:10px;height:25px;width:320px;">
             <button onclick="sendMessage()" style="height:28px;width:75px;">发送</button>
-            <input type="hidden" id="userName"  value="">
+            <input type="hidden" id="token"  value="">
+        </div>
+
+        <div>
+            当前在线：
+            <ul id="userList">
+            </ul>
         </div>
     </div>
     <script src="https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/jquery/jquery-1.10.2.min_65682a2.js"></script>
@@ -59,13 +68,33 @@
                     webSocket.send(JSON.stringify({event_id: 1, data: {'username': userName}}));
                     switchStatus = 1;
                 };
+
                 webSocket.onmessage = function (event) {
                     var content = document.getElementById('content');
                     var params = JSON.parse(event.data);
-                    if (params.msg != null) {
-                        content.innerHTML = content.innerHTML.concat('<p style="margin-left:20px;height:20px;line-height:20px;">'+params.msg+'</p>');
+                    if (params.event_id == 1) {
+                        var html = ''
+                        for(var i =0; i< params.userList.length; i++) {
+                            html+= '<li>' + params.userList[i] + '</li>'
+                        }
+                        $("#userList").html(html);
+                        $("#token").val(params.token);
+                    } else if(params.event_id == 2){
+                        if (params.data != null) {
+                            content.innerHTML = content.innerHTML.concat('<p style="margin-left:20px;height:20px;line-height:20px;">'+params.data+'</p>');
+                            content.scrollTop = content.scrollHeight;
+                        }
+                    } else if(params.event_id == 3){
+                            content.innerHTML = content.innerHTML.concat('<p style="margin-left:20px;color:#666;font-size:14px;height:20px;text-align:center;line-height:20px;">'+params.data+'</p>');
+                            content.scrollTop = content.scrollHeight;
+                            html = ''
+                        for(var i =0; i< params.userList.length; i++) {
+                            html+= '<li>' + params.userList[i] + '</li>'
+                        }
+                        $("#userList").html(html);
                     }
                 }
+
                 webSocket.onclose = function(event) {
                     switchStatus = 0;
                 }
@@ -76,19 +105,25 @@
 
         function sendMessage(){
             if (switchStatus == 1) {
-                var data = document.getElementById('message').value;
-                var room_id = document.getElementById('room_id').value;
-                var obj = {};
-                obj.msg = data;
-                obj.room_id = room_id;
-                webSocket.send(JSON.stringify({event_id: 2, data: obj}));
+                var msg = document.getElementById('message').value;
+                if ($.trim(msg) == '') return false;
+                webSocket.send(sendData(msg, 2));
                 document.getElementById('message').value = '';
             } else {
                 alert('websocket closed');
             }
         }
 
-		
+        function sendData(msg,event_id) {
+            return JSON.stringify({token: $("#token").val(), data: msg, event_id:event_id})
+        }
+
+        document.onkeydown = function (event) {
+            var e = event || window.event;
+            if (e && e.keyCode == 13) {
+                sendMessage();
+            }
+        };
 
     </script>
 </body>
