@@ -85,9 +85,17 @@
                             content.scrollTop = content.scrollHeight;
                         }
                     } else if(params.event_id == 3){
-                            content.innerHTML = content.innerHTML.concat('<p style="margin-left:20px;color:#666;font-size:14px;height:20px;text-align:center;line-height:20px;">'+params.data+'</p>');
-                            content.scrollTop = content.scrollHeight;
-                            html = ''
+                        content.innerHTML = content.innerHTML.concat('<p style="margin-left:20px;color:#666;font-size:14px;height:20px;text-align:center;line-height:20px;">'+params.data+'</p>');
+                        content.scrollTop = content.scrollHeight;
+                        html = ''
+                        for(var i =0; i< params.userList.length; i++) {
+                            html+= '<li>' + params.userList[i] + '</li>'
+                        }
+                        $("#userList").html(html);
+                    }else if(params.event_id == 4){
+                        content.innerHTML = content.innerHTML.concat('<p style="margin-left:20px;color:#666;font-size:14px;height:20px;text-align:center;line-height:20px;">'+params.data+'</p>');
+                        content.scrollTop = content.scrollHeight;
+                        html = ''
                         for(var i =0; i< params.userList.length; i++) {
                             html+= '<li>' + params.userList[i] + '</li>'
                         }

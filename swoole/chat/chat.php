@@ -30,7 +30,7 @@ class chat
     public function set() {
         $this->ws->set(
             array(
-                'daemonize' => true,      // 是否是守护进程
+                'daemonize' => false,      // 是否是守护进程
                 'max_request' => 10000,    // 最大连接数量
                 'dispatch_mode' => 2,
                 'debug_mode' => 1,
@@ -125,6 +125,32 @@ class chat
 
     public function onClose($ws, $fd)
     {
+        $start_fd = 0;
+        while(true)
+        {
+            $params['event_id'] = 4;
+            $conn_list = $ws->connection_list($start_fd, 100);   // 获取从fd之后一百个进行发送
+            echo 'conn_cnt:' . count($conn_list) . "\n";
+            if($conn_list === false || count($conn_list) === 0)
+            {
+                echo "发送下线完成\n";
+                return;
+            }
+            $start_fd = end($conn_list);
+            $params['data'] = $GLOBALS['redis']->hget('fd_' .$fd, 'username') . '已下线';
+
+            $curUserList = $GLOBALS['redis']->keys('fd_*');
+            foreach ($curUserList as $item) {
+                if ($item != 'fd_' .$fd) {
+                    $params['userList'][] = $GLOBALS['redis']->hget($item, 'username');
+                }
+            }
+            foreach($conn_list as $fd)
+            {
+                $ws->push($fd, json_encode($params));
+            }
+        }
+
         $GLOBALS['redis']->del('fd_' . $fd);
         echo "client-{$fd} is closed\n";
         $ws->close($fd);   // 销毁fd链接信息
