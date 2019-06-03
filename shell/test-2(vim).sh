@@ -51,6 +51,12 @@ c+$ 删除到行尾
 
 u 撤回上一步操作
 
+ls a*  查询a开头的 当前目录下所有的问题
+ls -l *.php 查询当前目录下.php扩展名的文件
+cp -a docs newdocs 递归性复制docs目录下的所有文件到newdocs中
 
+cd 等同于 cd ~
 
+cp -r /doc /newdoc  复制目录
 
+tree 查看目录结构
