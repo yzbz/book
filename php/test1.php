@@ -45,11 +45,11 @@ echo PHP_EOL;//提高代码可移植性，换行符
 
 //三种数组类型，数值型，关联型，多维数组
 $arr1 = [];
-array_column($arr); //返回数组中单一列的值
-array_chunk($arr); // 将数组分片
+array_column($arr, 'name'); //返回数组中单一列(name)的值
+array_chunk($arr, 10); // 将数组分片
 array_diff($arr,$arr1);//根据数组的值进行比较
 
 array_key_exists('name', $arr); //判断指定的key是否存在数组中
 
-array_rand($arr, 3);//随机返回数组中的几条记录，返回的是key
+$ar = array_rand($arr, 3);//随机返回数组中的几条记录，返回的是key
 array_search('red', $arr); //搜索值所在的key并返回
