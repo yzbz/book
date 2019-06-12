@@ -51,3 +51,5 @@ vendor/topthink/think-queue/src/queue/connector/Redis.php
   使用门面类，还需要注意写法，有的不能直接修改
   Config::pull 获取一级配置参数
 ```
+4.work和listen的差别，使用场景
+https://www.cnblogs.com/think-a-lot/p/10550939.html
