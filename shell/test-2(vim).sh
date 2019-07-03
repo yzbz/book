@@ -60,3 +60,18 @@ cd 等同于 cd ~
 cp -r /doc /newdoc  复制目录
 
 tree 查看目录结构
+
+vim 的三种模式
+命令行模式
+末行模式
+编辑模式
+
+bash
+ctrl+r 搜索历史命令
+
+history 历史命令
+!n 执行历史命令中的某条
+
+ctrl+l 清屏幕
+ctrl+w 删除键入的最后一个单词
+ctrl+u 删除行内光标前的字符
