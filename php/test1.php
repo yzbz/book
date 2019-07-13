@@ -47,7 +47,7 @@ echo PHP_EOL;//提高代码可移植性，换行符
 $arr1 = [];
 array_column($arr, 'name'); //返回数组中单一列(name)的值
 array_chunk($arr, 10); // 将数组分片
-array_diff($arr,$arr1);//根据数组的值进行比较
+array_diff($arr,$arr1);//根据数组的值进行比较，存在第一个中，不在第二个中的
 
 array_key_exists('name', $arr); //判断指定的key是否存在数组中
 
