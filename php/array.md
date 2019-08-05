@@ -38,7 +38,9 @@ function getMicrotime(){
     return (float)$usec + (float)$sec;
 }
 
-//run time:91.511964797974ms
+//php7.1 run time:91.511964797974ms
+//php5.6 run time:806.10203742981ms
+
 ```
 使用 in_array 在10万个元素的数组中比较1000次，运行时间需要约0.91秒
 
@@ -72,7 +74,8 @@ function getMicrotime(){
     return (float)$usec + (float)$sec;
 }
 
-//run time:3.5009384155273ms
+//php7.1 run time:3.5009384155273ms
+//php5.6 run time:797.60098457336ms
 ?>
 
 ```
