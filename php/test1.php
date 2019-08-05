@@ -47,9 +47,17 @@ echo PHP_EOL;//提高代码可移植性，换行符
 $arr1 = [];
 array_column($arr, 'name'); //返回数组中单一列(name)的值
 array_chunk($arr, 10); // 将数组分片
-array_diff($arr,$arr1);//根据数组的值进行比较
+array_diff($arr,$arr1);//根据数组的值进行比较，存在第一个中，不在第二个中的
 
 array_key_exists('name', $arr); //判断指定的key是否存在数组中
 
 $ar = array_rand($arr, 3);//随机返回数组中的几条记录，返回的是key
 array_search('red', $arr); //搜索值所在的key并返回
+
+//目的是要使用快递小助手的查询运费的功能
+//http://www.chakd.com/index.php
+//发现只接受gb2312的编码，urlencode()
+//需要注意的是要使用$text=iconv("GB2312","UTF-8",$text);
+//http://www.chakd.com/index.php?action=search&start=%CD%A8%C1%C9&end=%B1%B1%BE%A9&weight=10&Submit=%BF%EC%B5%DD%B2%E9%D1%AF
+
+$str3 = stristr('hello world', 'WORld'); //不校验大小写
