@@ -1,7 +1,7 @@
 ###PHP-FPM的三种工作模式和master进程和worker进程
-> 前言：什么是php-fpm
-> PHP-FPM(FastCGI Process Manager：FastCGI进程管理器)是一个实现了Fastcgi的程序，并且提供进程管理的功能，被PHP官方收了。
-> php-fpm就是php中的FastCGI进程管理器。进程包括master进程和worker进程。master进程只有一个，负责管理子进程。
+> 前言：什么是php-fpm<br>
+> PHP-FPM(FastCGI Process Manager：FastCGI进程管理器)是一个实现了Fastcgi的程序，并且提供进程管理的功能，被PHP官方收了。<br>
+> php-fpm就是php中的FastCGI进程管理器。进程包括master进程和worker进程。master进程只有一个，负责管理子进程。<br>
 > 详见可参考 <a href="https://blog.csdn.net/IT_10/article/details/92801153" target='_blank'>CGI、FastCGI和php-fpm概念和区别</a>  
 
 ####1. pm=static
