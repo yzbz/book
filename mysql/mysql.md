@@ -17,3 +17,13 @@
      (SELECT ID,(@i:=@i+1) AS i FROM sps_posts,(SELECT @i:=0) AS it WHERE post_status='publish') temp
  
   ```
+**3\. MySQL中的字符序命名惯例** 
+
+
+    以字符序对应的字符集名称开头；
+    以_ci(表示大小写不敏感)、
+    _cs(表示大小写敏感)、
+    或_bin(表示按编码值比较)结尾。
+    
+    例如：在字符序“utf8_general_ci”下，字符“a”和“A”是等价的
+    
