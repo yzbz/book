@@ -42,3 +42,28 @@ SELECT ... FOR UPDATE;
 共享锁：SELECT ... LOCK IN SHARE MODE;
 
 排他锁：SELECT ... FOR UPDATE;
+
+####1客观锁 vs 悲观锁场景分析
+假设有一张商品表 goods，它包含 id，商品名称，库存量三个字段
+
+假设有A、B两个用户同时各购买一件 id=1 的商品，用户A获取到的库存量为 1000，用户B获取到的库存量也为 1000，用户A完成购买后修改该商品的库存量为 999，用户B完成购买后修改该商品的库存量为 999，此时库存量数据产生了不一致。
+
+有两种解决方案：
+
+(1) 悲观锁方案：每次获取商品时，对该商品加排他锁。也就是在用户A获取获取 id=1 的商品信息时对该行记录加锁，期间其他用户阻塞等待访问该记录。悲观锁适合写入频繁的场景。
+    
+    begin;
+    select * from goods where id = 1 for update;
+    update goods set stock = stock - 1 where id = 1;
+    commit;
+    
+(2) 乐观锁方案：每次获取商品时，不对该商品加锁。在更新数据的时候需要比较程序中的库存量与数据库中的库存量是否相等，如果相等则进行更新，反之程序重新获取库存量，再次进行比较，直到两个库存量的数值相等才进行数据更新。乐观锁适合读取频繁的场景。
+    
+    #不加锁获取 id=1 的商品对象
+    select * from goods where id = 1
+    
+    begin;
+    #更新 stock 值，这里需要注意 where 条件 “stock = cur_stock”，只有程序中获取到的库存量与数据库中的库存量相等才执行更新
+    update goods set stock = stock - 1 where id = 1 and stock = cur_stock;
+    commit;
+
