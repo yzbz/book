@@ -15,3 +15,16 @@
 * 7.方法可以是protected 或者 public，不允许是private
 
 * 8.子类方法参数必须与抽象类方法参数完全一致,但允许增加默认参数
+```
+//抽象类
+abstract class Test {
+  protected $name;
+  protected $age;
+  //抽象方法
+  abstract public function getAget();
+  //即使是抽象类也是可以使用构造函数的
+  public function __construct() {
+   //todo 
+  }
+}
+```
