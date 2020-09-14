@@ -7,6 +7,10 @@ in_array(search,array,type)
 ```
 参数说明 <br>
 type为true是区分大小写的比较
+```
+var_dump(in_array(true, ['A', '1'], true)); //false
+var_dump(in_array(true, ['A', '1'], true)); //true
+```
 
 2.in_array()查找元素效率<br>
 例如：使用in_array()对有10万个元素的数组进行1000次比较
