@@ -17,7 +17,7 @@ var_dump($arr,$str1); //可以打印多个函数，字符串，
 define("GREETING", 'welcome to china', true);
 
 $str3 = "hello world";
-//删除字符串右侧的空白和特殊字符，或者有指定字符，删除最右侧的指定字符
+//删除字符串右侧的空白和特殊字符，或者有指定字符，删除最右侧的指定字符 chop
 $newStr = chop($str3, 'ld');
 var_dump($newStr);
 //sprintf($str,$arg,$arg),后面的参数一次替换%好的位置
@@ -35,7 +35,7 @@ echo strrev($txt);
 echo "\n";
 
 $str = 'hello shanghai';
-//替换第二个字符在第一个字符串中的位置，并替换，
+//替换第二个字符在第一个字符串中的位置，并替换，strtr
 echo strtr($str, "hai", "h1");//的三个字符串，不够不补，多余删除
 
 ucwords($str); //字符串中的所有单词的首字母大写
