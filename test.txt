@@ -1,0 +1,64 @@
+$postion = strpos('abcdefg', 'cd');
+var_dump($postion);
+$newStr = strtr('abcdefg', 'fg', '__highk');
+var_dump($newStr);
+$str = strstr('abcdefg', 'cd');
+var_dump($str);
+echo floor(1.3);
+echo ceil(1.3);
+echo round(4.4);
+
+$arr = explode(',', 'abc,def');
+var_dump($arr);
+$str = implode($arr, ',');
+var_dump($str);
+
+$arr = ['a' => 'red', 'b' => 'green', 'c' => 'pink'];
+var_dump(array_values($arr));
+var_dump(array_keys($arr));
+var_dump(array_flip($arr));
+var_dump(in_array('pink', $arr)); //返回的是布尔
+var_dump(array_search('pink', $arr)); //返回的是key
+var_dump(array_key_exists('a', $arr)); //返回的是布尔
+var_dump(isset($arr['b'])); //返回的是布尔
+var_dump(key($arr)); //返回的是当前的key
+var_dump(end($arr)); //移动到最后一个指针，并最后一个值
+var_dump(prev($arr)); //向前移动一个指针并返回值
+var_dump(current($arr)); //返回的当前的值
+var_dump(array_pop($arr)); //返回的是最后一个值,并删除
+
+$newArr = array_slice($arr, 0, 2); //截取数组元素
+var_dump($newArr);
+
+$chunkArr = array_chunk($arr, 2, true); //分割数组，保留键名
+var_dump($chunkArr);
+$padArr = array_pad($chunkArr, 4, 'zpzp'); //补充数组到指定长度
+var_dump($padArr);
+
+
+array_walk($arr,'function','words');  //使用用户函数对数组中的每个成员进行处理（第三个参数传递给回调函数function）
+array_map("function",$arr1,$arr2);  //可以处理多个数组（当使用两个或更多数组时，他们的长度应该相同）
+array_filter($arr,"function");  // 使用回调函数过滤数组中的每个元素，如果回调函数为TRUE，数组的当前元素会被包含在返回的结果数组中，数组的键名保留不变
+array_diff($arr, $arr1, $arr2); //返回在arr中但是不在arr1,arr2中的元素
+sort($arr);
+rsort($arr);
+ksort($arr);
+krsort($arr);
+
+
+const TEST_AGE = 18;
+const TEST_NAME = 'zp';
+$str = 'AGE';
+echo constant('TEST_' . $str);
+die;
+$weight = 50;
+$func = function ($name = 'jbw', $age=18) use(&$weight) {
+    echo $name . $age;
+    $weight = 60;
+    echo $weight;
+};
+echo $weight;
+$func('zp', 20);
+$func();
+echo  $weight;
+die;
