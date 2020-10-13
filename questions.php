@@ -27,4 +27,6 @@ $arrStr = 'abc,def,gh';
 //array_walk
 //array_map
 //array_filter
+//array_slice
+//in_array
 >
