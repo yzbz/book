@@ -2,7 +2,15 @@
 
 $str = 'abcdefghigklmn';
 $str1 = 'abcdefabcdeabcdabcaba';
+$str2 = 'abc';
 $arrStr = 'abc,def,gh';
+$num1 = 1.2;
+$num2 = 1.5;
+$num3 = 1.9;
+
+$arr1 = [1, 2, 3, 4, 5, 6];
+$arr2 = [2,3,5, 7];
+$arr3 = ['a' => 'zp', 'b' => 'xb', 'c' => 'jbw'];
 //strpos
 //stripos
 //strstr
